@@ -14,6 +14,8 @@
 		17677C57246A8BE1002EC49E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17677C56246A8BE1002EC49E /* Assets.xcassets */; };
 		17677C5A246A8BE1002EC49E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17677C59246A8BE1002EC49E /* Preview Assets.xcassets */; };
 		17677C5D246A8BE1002EC49E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17677C5B246A8BE1002EC49E /* LaunchScreen.storyboard */; };
+		179A17DB246B5E51005BD9EB /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179A17DA246B5E51005BD9EB /* ViewModel.swift */; };
+		17C5FE0A246B27DE005695B5 /* ScrollableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C5FE09246B27DE005695B5 /* ScrollableImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,9 @@
 		17677C59246A8BE1002EC49E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		17677C5C246A8BE1002EC49E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		17677C5E246A8BE1002EC49E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		17677C64246A9189002EC49E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		179A17DA246B5E51005BD9EB /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		17C5FE09246B27DE005695B5 /* ScrollableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +47,7 @@
 		17677C41246A8BDF002EC49E = {
 			isa = PBXGroup;
 			children = (
+				17677C64246A9189002EC49E /* README.md */,
 				17677C4C246A8BDF002EC49E /* Comics */,
 				17677C4B246A8BDF002EC49E /* Products */,
 			);
@@ -61,6 +67,8 @@
 				17677C4D246A8BDF002EC49E /* AppDelegate.swift */,
 				17677C4F246A8BDF002EC49E /* SceneDelegate.swift */,
 				17677C54246A8BDF002EC49E /* ContentView.swift */,
+				17C5FE09246B27DE005695B5 /* ScrollableImage.swift */,
+				179A17DA246B5E51005BD9EB /* ViewModel.swift */,
 				17677C56246A8BE1002EC49E /* Assets.xcassets */,
 				17677C5B246A8BE1002EC49E /* LaunchScreen.storyboard */,
 				17677C5E246A8BE1002EC49E /* Info.plist */,
@@ -81,9 +89,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		17677C49246A8BDF002EC49E /* Comics */ = {
+		17677C49246A8BDF002EC49E /* iOS Comics */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 17677C61246A8BE1002EC49E /* Build configuration list for PBXNativeTarget "Comics" */;
+			buildConfigurationList = 17677C61246A8BE1002EC49E /* Build configuration list for PBXNativeTarget "iOS Comics" */;
 			buildPhases = (
 				17677C46246A8BDF002EC49E /* Sources */,
 				17677C47246A8BDF002EC49E /* Frameworks */,
@@ -93,7 +101,7 @@
 			);
 			dependencies = (
 			);
-			name = Comics;
+			name = "iOS Comics";
 			productName = Comics;
 			productReference = 17677C4A246A8BDF002EC49E /* Comics.app */;
 			productType = "com.apple.product-type.application";
@@ -126,7 +134,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				17677C49246A8BDF002EC49E /* Comics */,
+				17677C49246A8BDF002EC49E /* iOS Comics */,
 			);
 		};
 /* End PBXProject section */
@@ -151,7 +159,9 @@
 			files = (
 				17677C53246A8BDF002EC49E /* Comics.xcdatamodeld in Sources */,
 				17677C4E246A8BDF002EC49E /* AppDelegate.swift in Sources */,
+				17C5FE0A246B27DE005695B5 /* ScrollableImage.swift in Sources */,
 				17677C55246A8BDF002EC49E /* ContentView.swift in Sources */,
+				179A17DB246B5E51005BD9EB /* ViewModel.swift in Sources */,
 				17677C50246A8BDF002EC49E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,7 +308,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Comics;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Comics;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -318,7 +328,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Comics;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Comics;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -336,7 +346,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		17677C61246A8BE1002EC49E /* Build configuration list for PBXNativeTarget "Comics" */ = {
+		17677C61246A8BE1002EC49E /* Build configuration list for PBXNativeTarget "iOS Comics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				17677C62246A8BE1002EC49E /* Debug */,
