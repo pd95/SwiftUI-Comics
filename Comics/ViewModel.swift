@@ -9,24 +9,77 @@
 import SwiftUI
 import Combine
 
+let dilbertFormat: DateFormatter = {
+    var dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "YYYY-MM-dd"
+    return dateFormatter
+}()
+
+
+struct ComicTimeline {
+
+    private let dateFormatter: DateFormatter
+    private var startIndex: DateIndex
+    private var endIndex: DateIndex { DateIndex(Date()) }
+
+    private var currentIndex: DateIndex {
+        willSet {
+            assert(newValue >= startIndex && newValue <= endIndex, "currentIndex must be in [\(startIndex) ... \(endIndex)]")
+        }
+    }
+    public var currentPosition: String {
+        dateFormatter.string(from: currentIndex.date)
+    }
+
+    public init(dateFormatter: DateFormatter, start: String, currentIndex: DateIndex = DateIndex()) {
+        guard let startDate = dateFormatter.date(from: start) else {
+            preconditionFailure("Valid start date expected \(start)")
+        }
+        self.dateFormatter = dateFormatter
+        self.startIndex = DateIndex(startDate)
+        self.currentIndex = currentIndex
+    }
+
+    // Advancing the current index
+    public mutating func previous() {
+        let previousDay = calendar.date(byAdding: .day, value: -1, to: currentIndex.date)!
+        currentIndex = max(DateIndex(previousDay), startIndex)
+    }
+
+    public mutating func next() {
+        let nextDay = calendar.date(byAdding: .day, value: 1, to: currentIndex.date)!
+        currentIndex = min(DateIndex(nextDay), endIndex)
+    }
+}
+
 class ViewModel: ObservableObject {
-    var id: String = ""
     var strip: String = "Dilbert"
     var title: String = " "
     var imageUrl: String = ""
     var currentSlide: Date = Date()
 
+    private var timeline = ComicTimeline(dateFormatter: dilbertFormat, start: "1989-04-16")
+    private var storage: [String: UIImage] = [:]
+
+    var id: String = ""
     var image = UIImage(named: "Start")!
     let placeholder = UIImage(named: "Start")!
 
-    var fetched = false
     var cancellable: AnyCancellable?
 
     let cache = NSCache<NSString,UIImage>()
 
     func refresh() {
-        let request = URLRequest(url: URL(string: "https://dilbert.com/\(!id.isEmpty ? "strip/\(id)" : "")")!)
+        let id = timeline.currentPosition
+        guard self.id != id else { return }
 
+        if let image = storage[id] {
+            self.image = image
+            self.id = id
+            return
+        }
+
+        let request = URLRequest(url: URL(string: "https://dilbert.com/\(!id.isEmpty ? "strip/\(id)" : "")")!)
         cancellable = URLSession.shared
             .dataTaskPublisher(for: request)
             .receive(on: DispatchQueue.main)
@@ -73,7 +126,7 @@ class ViewModel: ObservableObject {
                 self.id = id
                 self.title = attributes["title"] ?? "N/A"
                 if let imageRef = attributes["image"] {
-                    self.imageUrl = "https:\(imageRef)"
+                    self.imageUrl = imageRef
                 }
                 print("title = \(self.title)")
                 print("imageUrl = \(self.imageUrl)")
@@ -92,43 +145,14 @@ class ViewModel: ObservableObject {
         )
     }
 
-    private lazy var dateFormatter : DateFormatter = {
-        let df = DateFormatter()
-        df.dateFormat = "YYYY-MM-dd"
-        return df
-    }()
-
-    func previousId() -> String {
-        var date = dateFormatter.date(from: id) ?? Date()
-        date.addTimeInterval(TimeInterval(-24 * 60 * 60))
-        let newId = dateFormatter.string(from: date)
-        print("previousId=\(newId)")
-        return newId
-    }
-
-    func nextId() -> String {
-        var date = dateFormatter.date(from: id) ?? Date()
-        date.addTimeInterval(TimeInterval(24 * 60 * 60))
-        let newId = dateFormatter.string(from: date)
-        print("nextId=\(newId)")
-        if date < Date() {
-            return newId
-        }
-        return ""
-    }
-
     func previousComic() {
-        print("id=\(id)")
-        id = previousId()
+        timeline.previous()
         refresh()
     }
 
     func nextComic() {
-        let next = nextId()
-        if next != id {
-            id = next
-            refresh()
-        }
+        timeline.next()
+        refresh()
     }
 
 

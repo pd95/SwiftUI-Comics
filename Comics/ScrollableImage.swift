@@ -54,12 +54,14 @@ struct ScrollableImage: View {
             let dx: CGFloat = (imageWidth > scrollViewWidth ? (imageWidth - scrollViewWidth) / 2 : 0.0)
             let dy: CGFloat = (imageHeight > scrollViewHeight ? (imageHeight - scrollViewHeight) / 2 : 0.0)
 
+            let scrollAxis: Axis.Set = imageHeight > scrollViewHeight ? [.horizontal, .vertical] : [.horizontal]
             return AnyView(
-                ScrollView([.horizontal, .vertical]) {
+                ScrollView(scrollAxis) {
                     self.image
                         .resizable()
                         .frame(width: imageWidth, height: imageHeight)
-                        .offset(x: dx, y: dy)
+                        //.offset(x: dx, y: dy)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .frame(width: proxy.size.width, height: proxy.size.height)
                 .highPriorityGesture(self.magnification)
